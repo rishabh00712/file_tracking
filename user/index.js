@@ -19,7 +19,6 @@ app.use(session({
   cookie: { secure: false,maxAge:180000}
 }));
 
-
 const db = new pg.Client({
  user: "postgres", 
   host: "localhost",
@@ -146,7 +145,7 @@ app.post("/verify-otp", async (req, res) => {
     }
   } else {
     console.log("Invalid OTP entered.");
-    return res.render("otp.ejs", {
+    return res.render("otp_req.ejs", {
       message: "Invalid OTP. Please try again."
     });
   }

@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <!-- This site was created in Webflow. https://webflow.com -->
-<!-- Last Published: Tue Dec 24 2024 12:37:50 GMT+0000 (Coordinated Universal Time) -->
-<html data-wf-domain="rishabhs-login-page-9b011c8067c25fe6c78.webflow.io" data-wf-page="676a9c8ec290534782bcbdc6" data-wf-site="676a9c8ec290534782bcbdc7" data-wf-status="1">
+<!-- Last Published: Thu Dec 26 2024 16:36:40 GMT+0000 (Coordinated Universal Time) -->
+<html data-wf-domain="rishabhs-login-page.webflow.io" data-wf-page="6767bfc5edb869e511f3bddd" data-wf-site="6767bfc5edb869e511f3bdd7" data-wf-status="1">
     <head>
         <meta charset="utf-8"/>
-        <title>Copy of Rishabh &#x27;s login page</title>
+        <title>Rishabh &#x27;s login page</title>
         <meta content="width=device-width, initial-scale=1" name="viewport"/>
         <meta content="Webflow" name="generator"/>
-        <link href="https://cdn.prod.website-files.com/676a9c8ec290534782bcbdc7/css/rishabhs-login-page-9b011c8067c25fe6c78.webflow.021d269a1.css" rel="stylesheet" type="text/css"/>
+        <link href="https://cdn.prod.website-files.com/6767bfc5edb869e511f3bdd7/css/rishabhs-login-page.webflow.a8969f0dd.css" rel="stylesheet" type="text/css"/>
         <link href="https://fonts.googleapis.com" rel="preconnect"/>
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous"/>
-       
         <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
         <script type="text/javascript">
             WebFont.load({
@@ -27,20 +26,23 @@
                 ("ontouchstart"in o || o.DocumentTouch && c instanceof DocumentTouch) && (n.className += t + "touch")
             }(window, document);
         </script>
-        
+        <link href="https://cdn.prod.website-files.com/img/favicon.ico" rel="shortcut icon" type="image/x-icon"/>
+        <link href="https://cdn.prod.website-files.com/img/webclip.png" rel="apple-touch-icon"/>
     </head>
     <body class="body">
         <div class="container">
-            <!-- <h1 class="heading-2 paragraph">Please Enter the OTP Sent to Your Email</h1> -->
-            <h1 data-w-id="db92c3d8-7768-348e-0db2-f0daec64af39" class="heading-2 paragraph"><%= locals.error ? error :  'Enter The OTP Sent to Your Email Within 3 Minutes'  %></h1>
+            <div class="div-block-5">
+                <h1 class="heading-2 paragraph">Enter The OTP Sent to Your Email Within</h1>
+                <div class="heading-2 paragraph time" id="timer">180</div>
+                <div class="heading-2 paragraph second">Seconds</div>
+            </div>
             <div class="form-block-3 w-form">
-                <form id="email-form" name="email-form" data-name="Email Form" action="/verify-otp" method="post" class="form-3" >
-                    <input class="text-field-3 input w-input" autofocus="true" maxlength="256" name="otp" data-name="otp" placeholder="X X X X X " type="text" id="otp" required/>
+                <form id="email-form" name="email-form" data-name="Email Form" action="/verify-otp" method="post" class="form-3" data-wf-page-id="6767bfc5edb869e511f3bddd" data-wf-element-id="d99ca203-d47b-722a-4d58-73bcdd32e8fd" data-turnstile-sitekey="0x4AAAAAAAQTptj2So4dx43e">
+                    <input class="text-field-3 input w-input" maxlength="256" name="Email-3" data-name="Email 3" placeholder=<%= locals.error ? error :'X X X X X' %> type="text" id="Email-3" required="" autofocus/>
                     <div class="div-block-4">
                         <div class="button_box">
-                            <button type="button" class="button back-but w-button" onclick="window.location.href='/signin';">BACK</button>                        
-                            <input type="submit" data-wait="Please wait..."  class="button w-button" value="SUBMIT"/>
-
+                            <a href="/signup" class="button back w-button">BACK</a>
+                            <input type="submit" data-wait="Please wait..." class="button w-button"id="myButton" value="SIGN UP"/>
                         </div>
                     </div>
                 </form>
@@ -52,6 +54,29 @@
                 </div>
             </div>
         </div>
-       
+        <script>
+            // Start the timer at 180
+   let timerValue = 180;
+
+// Reference the timer element
+const timerElement = document.getElementById("timer");
+
+// Create an interval to count down every second
+const countdown = setInterval(() => {
+ // Decrease the timer value
+ timerValue--;
+
+ // Update the timer display
+ timerElement.textContent = timerValue;
+
+ // Stop the timer when it reaches 0
+ if (timerValue === 0) {
+   clearInterval(countdown);
+   document.getElementById("myButton").remove();
+   alert("Time's up!");
+ }
+}, 1000); // Run the function every 1000 milliseconds (1 second)
+       </script>
+      
     </body>
 </html>

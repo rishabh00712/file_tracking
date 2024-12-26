@@ -12,6 +12,11 @@
     }
     
 }
+@media (max-width: 740px) {
+    .otp-heading{
+        font-size: 8px;
+    }
+}
 .flex-container{
     width: 100%;
     display: flex;
