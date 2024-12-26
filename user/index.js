@@ -4,7 +4,7 @@ import pg from "pg";
 import bcrypt from "bcrypt";
 
 const app = express();
-const port = 3001;
+const port = 3000;
 const saltRounds = 10;
 
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -47,6 +47,7 @@ app.post("/signup", async (req, res) => {
         error:"Email already exists, Try logging in."
       });
     } else {
+      
       //hashing the password and saving it in the database
       bcrypt.hash(password, saltRounds, async (err, hash) => {
         if (err) {
@@ -99,7 +100,7 @@ app.post("/signin", async (req, res) => {
           });
         } else {
           if (result) {
-            res.render("file_search.html");
+            res.render("file_info.ejs");
           } else {
             res.render("signin.ejs",{
               error:"Your Password is Wrong Try agian."
