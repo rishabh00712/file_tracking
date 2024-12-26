@@ -31,10 +31,11 @@
     </head>
     <body class="body">
         <div class="container">
-            <h1 class="heading-2 paragraph">Please Enter the OTP Sent to Your Email</h1>
+            <!-- <h1 class="heading-2 paragraph">Please Enter the OTP Sent to Your Email</h1> -->
+            <h1 data-w-id="db92c3d8-7768-348e-0db2-f0daec64af39" class="heading-2 paragraph"><%= locals.error ? error :  'Enter The OTP Sent to Your Email Within 3 Minutes'  %></h1>
             <div class="form-block-3 w-form">
-                <form id="email-form" name="email-form" data-name="Email Form" method="post" class="form-3" >
-                    <input class="text-field-3 input w-input" autofocus="true" maxlength="256" name="otp" data-name="otp" placeholder="X X X X X " type="text" id="otp"/>
+                <form id="email-form" name="email-form" data-name="Email Form" action="/verify-otp" method="post" class="form-3" >
+                    <input class="text-field-3 input w-input" autofocus="true" maxlength="256" name="otp" data-name="otp" placeholder="X X X X X " type="text" id="otp" required/>
                     <div class="div-block-4">
                         <div class="button_box">
                             <button type="button" class="button back-but w-button" onclick="window.location.href='/signin';">BACK</button>                        

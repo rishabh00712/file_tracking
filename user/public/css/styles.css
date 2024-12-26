@@ -3,5 +3,23 @@
         font-size: 12px; /* Further reduced font size */
         padding: 0px; /* Further reduced padding */
     }
+    .toggle-btn{
+        width: 0px;
+        position:relative;
+        right: 40px;
+        top: 0px;
+        font-size: 18px;
+    }
     
+}
+.flex-container{
+    width: 100%;
+    display: flex;
+}
+.toggle-btn{
+    width: 0px;
+    position:relative;
+    right: 40px;
+    top: 8px;
+    font-size: 20px;
 }

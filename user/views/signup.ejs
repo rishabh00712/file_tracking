@@ -32,13 +32,16 @@
     </head>
     <body class="body">
         <div data-w-id="5bf2d70e-7163-8253-7c6a-17f2b1ffa320"  class="container">
-            <h1 data-w-id="db92c3d8-7768-348e-0db2-f0daec64af39"  class="heading-2 paragraph">Research &amp;Consultancy Cell of IIEST, Shibpur</h1>
+            <h1 data-w-id="db92c3d8-7768-348e-0db2-f0daec64af39" class="heading-2 paragraph"><%= locals.error ? error :  'Research & Consultancy Cell of IIEST, Shibpur'  %></h1>
+
             <div class="form-block-3 w-form">
                 <form id="email-form" name="email-form" data-name="Email Form"action="/signup" method="post" class="form-3" data-wf-page-id="6767bfc5edb869e511f3bddd" data-wf-element-id="d99ca203-d47b-722a-4d58-73bcdd32e8fd" data-turnstile-sitekey="0x4AAAAAAAQTptj2So4dx43e">
                     <input class="text-field-3 input w-input" autofocus="true" maxlength="256" name="name" data-name="Name" placeholder="Enter Your Name" data-w-id="d99ca203-d47b-722a-4d58-73bcdd32e900" type="text" id="Name" required=""/>
                     <input class="text-field-3 input w-input" maxlength="256" name="email" data-name="Email 3" placeholder="Enter Your Email" data-w-id="80b444b5-70a1-197f-1b3d-e71a108cd226" type="email" id="Email-3" required=""/>
-                    <input class="text-field-4-copy input w-input" maxlength="256" name="password" data-name="Password" placeholder="Enter Your Password" data-w-id="d99ca203-d47b-722a-4d58-73bcdd32e903" type="password" id="Password" required=""/>
-                    <div class="div-block-4">
+                    <div class="flex-container">
+                        <input class="text-field-4-copy input w-input" maxlength="256" name="password" data-name="Password"  placeholder="Enter Your Password" data-w-id="d99ca203-d47b-722a-4d58-73bcdd32e903" type="password" id="Password" required=""/>
+                        <span class="toggle-btn" id="togglePassword">👁️‍🗨️</span>
+                    </div>                    <div class="div-block-4">
                         <div class="button_box" style="width: 100%;">
                             <button type="button" class="button w-button" onclick="window.location.href='/signin';">SIGN IN</button>                        
                             <input type="submit" data-wait="Please wait..." data-w-id="b947553e-b0c1-7639-71f8-fcec56622f1a" class="button w-button" value="SIGN UP"/>
@@ -54,5 +57,20 @@
                 </div>
             </div>
         </div>
+        <script>
+            // Select elements
+            const passwordInput = document.getElementById('Password');
+            const togglePassword = document.getElementById('togglePassword');
+        
+            // Add click event listener to the toggle button
+            togglePassword.addEventListener('click', () => {
+              const currentType = passwordInput.getAttribute('type');
+              const newType = currentType === 'password' ? 'text' : 'password';
+              passwordInput.setAttribute('type', newType);
+        
+              // Toggle the emoji
+              togglePassword.textContent = currentType === 'password' ? '🙈' : '👁️‍🗨️';
+            });
+          </script>
     </body>
 </html>
