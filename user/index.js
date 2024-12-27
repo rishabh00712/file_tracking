@@ -13,10 +13,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.use(express.json());
 app.use(session({
-  secret: 'your-secret-key',
+  secret: 'my-secret-key',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false,maxAge:180000}
+  cookie: { secure: false,maxAge:1000 * 60 * 2}
 }));
 
 const db = new pg.Client({
@@ -31,6 +31,11 @@ db.connect();
 app.get("/", (req, res) => {
   res.render("signin.ejs");
 });
+
+app.get("/change_pass", (req, res) => {
+  res.render("change_pass.ejs");
+});
+
 
 app.get("/signin", (req, res) => {
   res.render("signin.ejs");

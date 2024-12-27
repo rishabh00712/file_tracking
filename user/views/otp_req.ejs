@@ -33,7 +33,7 @@
         <div class="container">
             <div class="div-block-5">
                 <h1 class="heading-2 paragraph">Enter The OTP Sent to Your Email Within</h1>
-                <div class="heading-2 paragraph time" id="timer">180</div>
+                <div class="heading-2 paragraph time" id="timer">120</div>
                 <div class="heading-2 paragraph second">Seconds</div>
             </div>
             <div class="form-block-3 w-form">
@@ -56,26 +56,26 @@
         </div>
         <script>
             // Start the timer at 180
-   let timerValue = 180;
+            let timerValue = 120;
 
-// Reference the timer element
-const timerElement = document.getElementById("timer");
+            // Reference the timer element
+            const timerElement = document.getElementById("timer");
 
-// Create an interval to count down every second
-const countdown = setInterval(() => {
- // Decrease the timer value
- timerValue--;
+            // Create an interval to count down every second
+            const countdown = setInterval(() => {
+            // Decrease the timer value
+            timerValue--;
 
- // Update the timer display
- timerElement.textContent = timerValue;
+            // Update the timer display
+            timerElement.textContent = timerValue;
 
- // Stop the timer when it reaches 0
- if (timerValue === 0) {
-   clearInterval(countdown);
-   document.getElementById("myButton").remove();
-   alert("Time's up!");
- }
-}, 1000); // Run the function every 1000 milliseconds (1 second)
+            // Stop the timer when it reaches 0
+            if (timerValue === 0) {
+            clearInterval(countdown);
+            document.getElementById("myButton").remove();
+            alert("Time's up!");
+            }
+            }, 1000); // Run the function every 1000 milliseconds (1 second)
        </script>
       
     </body>
