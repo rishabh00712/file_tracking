@@ -6,6 +6,7 @@ import nodemailer from "nodemailer";
 import session from "express-session";
 import passport from "passport";
 import { Strategy } from "passport-local";
+import { render } from "ejs";
 
 var gobalOtp;
 let gobalName ;
@@ -365,6 +366,8 @@ app.post("/signin", (req, res, next) => {
               });
           }
           console.log("User authenticated successfully:", user);
+          const now = new Date();
+          const formattedDate = `${now.getMonth() + 1}/${now.getDate()}/${now.getFullYear().toString().slice(-2)}`;
           return res.redirect("/file_search");
       });
   })(req, res, next);
@@ -406,6 +409,20 @@ passport.use(
     }
   )
 );
+
+app.get('/logout', (req, res) => {
+  // Destroy the session
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+      return render("file_search.ejs",{
+        error:"Something Went Wrong Fail to Log out"
+      })
+    }
+    // Redirect to the home page
+    res.redirect('/');
+  });
+});
 
 
 passport.serializeUser((user, cb) => {

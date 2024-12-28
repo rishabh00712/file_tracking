@@ -8,7 +8,7 @@ import passport from "passport";
 import { Strategy } from "passport-local";
 
 var gobalOtp;
-let gobalName ;
+let gobalName;
 let  hashPassword;
 let  gobalEmail;
 

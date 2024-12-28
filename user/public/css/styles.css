@@ -28,3 +28,12 @@
     top: 8px;
     font-size: 20px;
 }
+.logout{
+    display: flex;
+    justify-content: center; 
+    align-items: center;   
+    position: relative; 
+    left: 80%; 
+    bottom :80px;
+    color: white;
+}

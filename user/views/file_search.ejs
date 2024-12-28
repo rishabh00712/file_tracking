@@ -9,6 +9,7 @@
         <meta content="Webflow" name="generator"/>
         <link href="https://cdn.prod.website-files.com/676a9c8ec290534782bcbdc7/css/rishabhs-login-page-9b011c8067c25fe6c78.webflow.747aee302.css" rel="stylesheet" type="text/css"/>
         <link href="https://fonts.googleapis.com" rel="preconnect"/>
+        <link rel="stylesheet" href="css/styles.css">
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous"/>
         <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
         <script type="text/javascript">
@@ -34,15 +35,20 @@
             <img src="https://cdn.prod.website-files.com/676a9c8ec290534782bcbdc7/676ac6a61195ced8cfaf5719_Indian_Institute_of_Engineering_Science_and_Technology%2C_Shibpur_Logo.png" loading="lazy" sizes="100px" srcset="https://cdn.prod.website-files.com/676a9c8ec290534782bcbdc7/676ac6a61195ced8cfaf5719_Indian_Institute_of_Engineering_Science_and_Technology%2C_Shibpur_Logo-p-500.png 500w, https://cdn.prod.website-files.com/676a9c8ec290534782bcbdc7/676ac6a61195ced8cfaf5719_Indian_Institute_of_Engineering_Science_and_Technology%2C_Shibpur_Logo.png 800w" alt="" class="image-2"/>
             <div class="div-block-6">
                 <h1 class="heading-3">Name</h1>
-                <p class="paragraph-2">01/01/2025</p>
+                <% 
+                    const now = new Date();
+                    const formattedDate = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear().toString().slice(-2)}`;
+                 %>
+                <p class="paragraph-2"><%= formattedDate %></p>
             </div>
         </div>
         <p class="paragraph-2"style="padding-left: 20px; font-size:15px;">Research & Consultancy Cell of IIEST, Shibpur</p>
+        <button class="button logout" onclick="location.href='/logout';">LOG OUT</button>
         <div class="container">
             <h1 class="heading-2 paragraph">track the status of your file</h1>
             <div class="form-block-3 w-form">
                 <form id="email-form" name="email-form" data-name="Email Form" method="post" class="form-3" data-wf-page-id="676a9c8ec290534782bcbdc6" data-wf-element-id="d99ca203-d47b-722a-4d58-73bcdd32e8fd">
-                    <input class="inputfild w-input" maxlength="256" name="fild_id" data-name="fild_id" placeholder="ENTER THE FILD ID" type="text" id="fild_id" required=""/>
+                    <input class="inputfild w-input" maxlength="256" name="fild_id" data-name="fild_id" placeholder="ENTER THE FILD ID" type="text" id="fild_id" required="" autofocus/>
                     <div class="div-block-4">
                         <div class="button_box">
                             <input type="submit" data-wait="" class="button w-button" value="SUBMIT"/>
