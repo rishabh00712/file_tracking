@@ -1,20 +1,21 @@
+
 <!DOCTYPE html>
 <!-- This site was created in Webflow. https://webflow.com -->
-<!-- Last Published: Tue Dec 24 2024 17:14:30 GMT+0000 (Coordinated Universal Time) -->
-<html data-wf-domain="rishabhs-login-page-9b011c8067c25fe6c78.webflow.io" data-wf-page="676a9c8ec290534782bcbdc6" data-wf-site="676a9c8ec290534782bcbdc7" data-wf-status="1">
+<!-- Last Published: Tue Dec 31 2024 14:48:12 GMT+0000 (Coordinated Universal Time) -->
+<html data-wf-domain="rishabhs-login-page-9b011-ab920cc3bf713.webflow.io" data-wf-page="6772f75dac0fe20daa921c70" data-wf-site="6772f75dac0fe20daa921c71" data-wf-status="1">
     <head>
         <meta charset="utf-8"/>
-        <title>Copy of Rishabh &#x27;s login page</title>
+        <title>Copy of Copy of Rishabh &#x27;s login page</title>
         <meta content="width=device-width, initial-scale=1" name="viewport"/>
         <meta content="Webflow" name="generator"/>
-        <link href="https://cdn.prod.website-files.com/676a9c8ec290534782bcbdc7/css/rishabhs-login-page-9b011c8067c25fe6c78.webflow.a94ee6ece.css" rel="stylesheet" type="text/css"/>
+        <link href="https://cdn.prod.website-files.com/6772f75dac0fe20daa921c71/css/rishabhs-login-page-9b011-ab920cc3bf713.webflow.c566ad025.css" rel="stylesheet" type="text/css"/>
         <link href="https://fonts.googleapis.com" rel="preconnect"/>
         <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin="anonymous"/>
         <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js" type="text/javascript"></script>
         <script type="text/javascript">
             WebFont.load({
                 google: {
-                    families: ["PT Serif:400,400italic,700,700italic", "Vollkorn:400,400italic,700,700italic"]
+                    families: ["PT Serif:400,400italic,700,700italic", "Vollkorn:400,400italic,700,700italic", "PT Sans:400,400italic,700,700italic"]
                 }
             });
         </script>
@@ -31,19 +32,43 @@
     </head>
     <body class="body">
         <div class="div-block-5">
-            <img src="https://cdn.prod.website-files.com/676a9c8ec290534782bcbdc7/676ac6a61195ced8cfaf5719_Indian_Institute_of_Engineering_Science_and_Technology%2C_Shibpur_Logo.png" loading="lazy" sizes="100px" srcset="https://cdn.prod.website-files.com/676a9c8ec290534782bcbdc7/676ac6a61195ced8cfaf5719_Indian_Institute_of_Engineering_Science_and_Technology%2C_Shibpur_Logo-p-500.png 500w, https://cdn.prod.website-files.com/676a9c8ec290534782bcbdc7/676ac6a61195ced8cfaf5719_Indian_Institute_of_Engineering_Science_and_Technology%2C_Shibpur_Logo.png 800w" alt="" class="image-2"/>
+            <img src="https://cdn.prod.website-files.com/6772f75dac0fe20daa921c71/6772f75dac0fe20daa921c77_Indian_Institute_of_Engineering_Science_and_Technology%2C_Shibpur_Logo.png" loading="lazy" sizes="100px" srcset="https://cdn.prod.website-files.com/6772f75dac0fe20daa921c71/6772f75dac0fe20daa921c77_Indian_Institute_of_Engineering_Science_and_Technology%252C_Shibpur_Logo-p-500.png 500w, https://cdn.prod.website-files.com/6772f75dac0fe20daa921c71/6772f75dac0fe20daa921c77_Indian_Institute_of_Engineering_Science_and_Technology%2C_Shibpur_Logo.png 800w" alt="" class="image-2"/>
             <div class="div-block-6">
-                <h1 class="heading-3">Name</h1>
-                <p class="paragraph-2">01/01/2025</p>
+                <% 
+                const now = new Date();
+                const formattedDate = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear().toString().slice(-2)}`;
+             %>
+            <p class="paragraph-2 date"><%= formattedDate %></p>
+                <p class="paragraph-2 iiest">Research &amp;Consultancy Cell of IIEST, Shibpur</p>
             </div>
         </div>
-        <p class="paragraph-2 iiest">Research &amp;Consultancy Cell of IIEST, Shibpur</p>
-        <div class="div-block-7">
+        <div class="div-block-7 button">
             <h1 class="heading-4 color heading">Track the status of your file</h1>
-            <h1 class="heading-4 color line">File id : Umc321</h1>
-            <p class="paragraph-3">file information: </p>
-            <div class="div-block-8"></div>
+            <section class="section paragraph-2">
+                <div class="text-block"><%= file_id %></div>
+            </section>
+            <div class="div-block-8">
+                <div class="div-block-9 head">
+                    <div class="div-block-14">
+                        <p class="paragraph-6">department</p>
+                    </div>
+                    <div class="div-block-15">
+                        <p class="paragraph-6">date</p>
+                    </div>
+                </div>
+                <% files.forEach(file => { %>
+                    <div class="div-block-9 mid">
+                        <div class="div-block-17">
+                            <p class="paragraph-6 name filename"><%=file.dept_name  %> </p>
+                        </div>
+                        <div class="div-block-18">
+                            <p class="paragraph-6 name filename"><%= file.date %> </p>
+                        </div>
+                    </div>
+                    <% }); %>
+                
+                <a  onclick="location.href='/file_search'" class="button-2 logout bottom w-button">BACK</a>
+            </div>
         </div>
-        
     </body>
 </html>

@@ -42,6 +42,15 @@ const db = new pg.Client({
 });
 db.connect();
 
+const dbfile = new pg.Client({
+  user: "postgres", 
+   host: "localhost",
+   database: "file_track",
+   password: "rishabh123",
+   port: 5432,
+ });
+ dbfile.connect();
+
 app.get("/", (req, res) => {
   if (req.isAuthenticated()) {
     res.redirect("/file_search")
@@ -170,7 +179,7 @@ app.post("/verify-otp", async (req, res) => {
       gobalOtp=0;
       hashPassword=null;
       // Redirect to a success page
-      return res.render("file_info.ejs", {
+      return res.render("file_search.ejs", {
         successMessage: "User registered successfully!"
       });
     } catch (err) {
@@ -239,6 +248,7 @@ app.post("/change-pass", async(req,res)=>{
                   error: "Failed to send OTP. Please try again later."
                 });
               } else {
+                console.log(otp)
                 console.log('OTP sent: ' + info.response);
                 // Store the OTP in the session (or use any other temporary storage)
                 gobalOtp = otp;
@@ -431,6 +441,37 @@ passport.serializeUser((user, cb) => {
 passport.deserializeUser((user, cb) => {
   cb(null, user);
 });
+
+//............................................LOG IN PART ||..........................
+
+app.post("/search_file", async (req, res) => {
+  const file_id=req.body.file_id;
+
+  try {
+    const result = await dbfile.query("SELECT d.dept_name, f.date FROM public.file_location f INNER JOIN public.departments d ON f.dep_code = d.dep_code WHERE f.file_id =$1 ORDER BY f.number ", [
+      file_id,
+    ]);
+
+    if (result.rows.length == 0) {
+      console.log("Invalid file id");
+      res.render("file_search.ejs",{
+        error:" YOUR FILE HAS NOT BEEN SUBMITTED YET",
+      });
+    } else {
+      console.log("file found");
+      res.render("file_info.ejs",{
+        file_id:file_id,
+        files:result.rows,
+      })
+    }
+  } catch (err) {
+    console.log("data base error");
+      res.render("file_search.ejs",{
+        error:"SOMETINGS WENT WRONG TRY AGAIN",
+      });
+  }
+});
+
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:3000`);
