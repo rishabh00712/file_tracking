@@ -8,10 +8,7 @@ import passport from "passport";
 import { Strategy } from "passport-local";
 import { render } from "ejs";
 
-var gobalOtp;
-let gobalName ;
-let  hashPassword;
-let  gobalEmail;
+let emailMap = new Map();
 
 const app = express();
 const port = 3000;
@@ -132,14 +129,17 @@ app.post("/signup", async (req, res) => {
             } else {
               console.log('OTP sent: ' + info.response);
               // Store the OTP in the session (or use any other temporary storage)
-              gobalOtp=otp;
-              gobalName=name;
-              gobalEmail=email;
-              hashPassword=hash;
+              emailMap.set(email, {
+                otp: otp,
+                password: hash,
+                name: name,
+            });
+            console.log("Entry added successfully!");
 
               // Render the OTP input page
               return res.render("otp_req.ejs", {
-                message: "Please enter the OTP sent to your email."
+                message: "Please enter the OTP sent to your email.",
+                email: email
               });
             }
           });
@@ -154,18 +154,28 @@ app.post("/signup", async (req, res) => {
   }
 });
 
-app.post("/verify-otp", async (req, res) => {
+app.post("/verify-otp/:email", async (req, res) => {
+  const user_email = req.params.email;
   const enteredOtp = req.body.otp;
-  const sessionOtp = gobalOtp;
-  const user_email = gobalEmail;
-  const user_name = gobalName;
-  const user_pass = hashPassword;
+  let obj = emailMap.get(user_email);
+  let sended_otp;
+  let user_name;
+  let user_pass;
+  if (obj) {
+    // Method 1: Console each value directly
+     sended_otp=obj.otp;
+     user_name=obj.name;
+     user_pass=obj.password;
+  }else{
+    res.render("signup.ejs",{
+      error:"Something Went Wrong. Please Try Again"
+    })
+  }
 
-
-  console.log(`the session otp is ${sessionOtp}`);
+  console.log(`the session otp is ${sended_otp}`);
   console.log(`the entered otp is ${enteredOtp}`)
   // Check if OTP is valid
-  if (enteredOtp == sessionOtp) {
+  if (enteredOtp == sended_otp) {
     // Save user to the database after OTP verification
     try {
       await db.query("INSERT INTO users (name, email, password) VALUES ($1, $2, $3)", [
@@ -173,11 +183,11 @@ app.post("/verify-otp", async (req, res) => {
       ]);
       console.log("User registered successfully!");
 
-      // Clear OTP from after successful verification
-      gobalEmail=null;
-      gobalName=null;
-      gobalOtp=0;
-      hashPassword=null;
+    if (emailMap.delete(user_email)) {
+      console.log("Entry deleted successfully!");
+    } else {
+      console.log("Email not found, nothing to delete!");
+    }
       // Redirect to a success page
       return res.render("file_search.ejs", {
         successMessage: "User registered successfully!"
@@ -185,13 +195,14 @@ app.post("/verify-otp", async (req, res) => {
     } catch (err) {
       console.error("Database error:", err);
       return res.render("signup.ejs", {
-        error: "Something went wrong. Please try again later."
+        error: "Something Went Wrong. Please Try Again Later."
       });
     }
   } else {
     console.log("Invalid OTP entered.");
     return res.render("otp_req.ejs", {
-      error: "Invalid OTP. Please try again."
+      error: "Invalid OTP. Please try again.",
+      email:user_email
     });
   }
 });
@@ -251,12 +262,15 @@ app.post("/change-pass", async(req,res)=>{
                 console.log(otp)
                 console.log('OTP sent: ' + info.response);
                 // Store the OTP in the session (or use any other temporary storage)
-                gobalOtp = otp;
-                gobalEmail=email;
-                hashPassword=hash;
+                emailMap.set(email,{
+                  otp:otp,
+                  password:hash,
+                })
+                console.log("Successfully entered into the hashmap");
                 // Render the OTP input page
                 return res.render("otp_changepass.ejs", {
-                  message: "Please enter the OTP sent to your email"
+                  message: "Please enter the OTP sent to your email",
+                  email:email,
                 });
               }
             });
@@ -277,14 +291,23 @@ app.post("/change-pass", async(req,res)=>{
 
 });
 
-app.post("/changepass-otp", async (req, res) => {
+app.post("/changepass-otp/:email", async (req, res) => {
+  const email=req.params.email;
+  let obj=emailMap.get(email);
   const enteredOtp = req.body.otp;
-  const sessionOtp = gobalOtp;
-  const email=gobalEmail;
-  const user_pass=hashPassword;
+  let sended_otp;
+  let user_pass;
+  if(emailMap.has(email)){
+    sended_otp=obj.otp;
+    user_pass=obj.password;
+  }else{
+    res.render("change_pass.ejs",{
+      error:"Something Is Wrong Try Again"
+    })
+  }
 
   // Check if OTP is valid
-  if (enteredOtp == sessionOtp) {
+  if (enteredOtp == sended_otp) {
     // Save user to the database after OTP verification
     try {
       
@@ -294,9 +317,8 @@ app.post("/changepass-otp", async (req, res) => {
       console.log("User registered successfully!");
 
       // Clear OTP from session after successful verification
-      gobalOtp = 0;
-      gobalEmail=null;
-      hashPassword=null;
+      emailMap.delete(email);
+      console.log("email deleted successfully")
       
       const transporter = nodemailer.createTransport({
         service: 'gmail', // Or any email service
@@ -342,7 +364,8 @@ app.post("/changepass-otp", async (req, res) => {
   } else {
     console.log("Invalid OTP entered.");
     return res.render("otp_changepass.ejs", {
-      error: " Wrong OTP Try Again."
+      error: " Wrong OTP",
+      email:email
     });
   }
 });
@@ -448,7 +471,7 @@ app.post("/search_file", async (req, res) => {
   const file_id=req.body.file_id;
 
   try {
-    const result = await dbfile.query("SELECT d.dept_name, f.date FROM public.file_location f INNER JOIN public.departments d ON f.dep_code = d.dep_code WHERE f.file_id =$1 ORDER BY f.number ", [
+    const result = await dbfile.query("SELECT dep_name, date FROM file_location  WHERE file_id =$1 ORDER BY number ", [
       file_id,
     ]);
 

@@ -197,3 +197,75 @@ app.post("/verify-otp", async (req, res) => {
   }
 });
 
+
+app.get("/signin", (req, res) => {
+  res.render("signin.ejs");
+});
+
+app.post("/signin", async(req, res, next) => {
+  console.log(req.body.email);
+  console.log(req.body.password);
+  const email=req.body.email;
+  const department=req.body.dept;
+  const hashPassword= req.body.password;
+  try {
+    const result = await db.query("SELECT * FROM users WHERE email = $1", [email]);
+    if (result.rows.length === 0) {
+      console.log("No user found for email:", email);
+      return cb(null, false, { message: "User not found" });
+    }
+    const user = result.rows[0];
+    const storedHashedPassword = user.password;
+    console.log("Stored hashed password:", storedHashedPassword);
+    
+    bcrypt.compare(password, storedHashedPassword, (err, valid) => {
+      if (err) {
+        console.error("Error during password comparison:", err);
+        return cb(err);
+      }
+      if (valid) {
+        console.log("Password matches for user:", user);
+        return cb(null, user);
+      } else {
+        console.log("Invalid password for user:", email);
+        return cb(null, false, { message: "Invalid password" });
+      }
+    });
+  } catch (err) {
+    console.error("Database error:", err);
+    return cb(null, false, { message: "Database error" });
+  }
+});
+
+
+passport.use(
+  new Strategy(
+    { usernameField: 'email', passwordField: 'password' },
+    async (email, password, cb) => {
+      console.log("Authenticating user:", email);
+      
+    }
+  )
+);
+
+app.get('/logout', (req, res) => {
+  // Destroy the session
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error destroying session:', err);
+      return render("file_search.ejs",{
+        error:"Something Went Wrong Fail to Log out"
+      })
+    }
+    // Redirect to the home page
+    res.redirect('/');
+  });
+});
+
+
+passport.serializeUser((user, cb) => {
+  cb(null, user);
+});
+passport.deserializeUser((user, cb) => {
+  cb(null, user);
+});

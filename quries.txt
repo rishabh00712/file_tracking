@@ -1,51 +1,84 @@
+
+
+ALTER TABLE departments ADD CONSTRAINT unique_dep_code UNIQUE (dep_code);
+ALTER TABLE table_name
+ADD COLUMN column_name data_type [constraint];
+
+ALTER TABLE table_name
+DROP COLUMN column_name;
+
+
 CREATE TABLE dean_id (
     dean_no INT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL
+    name VARCHAR(355) NOT NULL
 );
 
 CREATE TABLE departments (
     d_no INT REFERENCES dean_id(dean_no) ON DELETE CASCADE,
-    dep_code VARCHAR(4) NOT NULL PRIMARY KEY ,
-    dept_name VARCHAR(255) NOT NULL
+    dep_name VARCHAR(255) NOT NULL  PRIMARY KEY
 );
 
-ALTER TABLE departments ADD CONSTRAINT unique_dep_code UNIQUE (dep_code);
+
 
 CREATE TABLE members (
-    dep_code VARCHAR(4) NOT NULL,
-    member_name VARCHAR(255) NOT NULL,
-	member_email VARCHAR(255) NOT NULL,
-    PRIMARY KEY (dep_code, member_email),
-    FOREIGN KEY (dep_code) REFERENCES departments(dep_code) ON DELETE CASCADE
+    dep_name VARCHAR(255) NOT NULL,
+    member_name VARCHAR(355) NOT NULL,
+    member_email VARCHAR(255) NOT NULL,
+    PRIMARY KEY (dep_name, member_email),
+    FOREIGN KEY (dep_name) REFERENCES departments(dep_name) ON DELETE CASCADE
+);
+
+CREATE TABLE file_arrangement (
+    file_id VARCHAR(35) PRIMARY KEY,
+    description VARCHAR(45),
+	curr_location INT ,
+	max_dep int 
 );
 
 CREATE TABLE dep_files (
-	file_id VARCHAR(15),
-    dep_code VARCHAR(4) NOT NULL,
-    PRIMARY KEY (file_id,dep_code, ), 
-    FOREIGN KEY (dep_code) REFERENCES departments(dep_code) ON DELETE CASCADE,
+    dep_name VARCHAR(255) NOT NULL,
+    file_id VARCHAR(35),
+    description VARCHAR(45),
+    
+    PRIMARY KEY (dep_name,file_id), 
+    FOREIGN KEY (dep_name) REFERENCES departments(dep_name) ON DELETE CASCADE,
     FOREIGN KEY (file_id) REFERENCES file_arrangement(file_id) ON DELETE CASCADE
 );
 
 
 CREATE TABLE file_location (
-	number INT ,
-    file_id VARCHAR(15),
-    dep_code VARCHAR(4),
+	number INT,
+    file_id VARCHAR(35),
+    dep_name VARCHAR(255),
     date VARCHAR(255),
     FOREIGN KEY (file_id) REFERENCES file_arrangement(file_id) ON DELETE CASCADE,
-    FOREIGN KEY (dep_code) REFERENCES departments(dep_code) ON DELETE CASCADE,
-	PRIMARY KEY (file_id,dep_code)
+    FOREIGN KEY (dep_name) REFERENCES departments(dep_name) ON DELETE CASCADE
 );
 
-CREATE TABLE file_arrangement (
-    file_id VARCHAR(15) PRIMARY KEY,
-    dep_array VARCHAR[] ,
-description VARCHAR(25)
-);
+
 CREATE TABLE file_req(
     file_id VARCHAR(15) PRIMARY KEY,
     date varchar(255)
+);
+
+create table members_req(
+dep_name varchar(255) ,
+	members_name varchar(355) ,
+	members_email varchar(255) primary key,
+	members_pass  varchar(355) not null,
+	FOREIGN KEY (dep_name) REFERENCES departments(dep_name) ON DELETE CASCADE
+);
+
+create table complite_files(
+	file_id varchar(35),
+	date varchar(255),
+	foreign key (file_id) references file_arrangement(file_id) on delete cascade
+);
+
+create table users(
+	name varchar(355) not null,
+	email varchar(255) primary key,
+	password varchar(355) not null
 );
 .....................................................
 UPDATE file_location
@@ -54,3 +87,13 @@ WHERE file_id='f1001' and dep_code='EP';
 
 SELECT * FROM public.file_location where file_id='f1001'
 ORDER BY number 
+
+INSERT INTO file_arrangement (file_id, sections)
+VALUES
+    ('f1001', ARRAY['Director Office', 'Finance Section', 'Store & Purchase Section', 'Office of Dean']),
+    ('f1002', ARRAY['Internal Audit', 'Office of Dean', 'Finance Section', 'Office of Dean']);
+
+insert into file_arrangement values('f1001','Paymant',1),('f1002','others',2)
+
+
+
