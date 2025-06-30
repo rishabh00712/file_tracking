@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Files Page</title>
+  <link rel="stylesheet" href="/css/fileHandler.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+
+  <% if (typeof error !== 'undefined' && error) { %>
+    <div id="alertBox" class="alert error"><%= error %></div>
+  <% } else if (typeof successMessage !== 'undefined' && successMessage) { %>
+    <div id="alertBox" class="alert success"><%= successMessage %></div>
+  <% } %>
+
+  <!-- ✅ TOP NAVIGATION BUTTONS -->
+  <div class="top-nav">
+    <div class="nav-left">
+        <a href="/files_info/<%= dept %>" class="nav-button">HOME</a>
+      <% if (dept === 'Store & Purchase Section' || dept === 'Dean Office') { %>
+        <a href="/fileadd/<%=dept%>" class="nav-button">Add Files</a>
+      <% } %>
+        <!-- 'Dean Office' -->
+      <% if (dept === 'Dean Office') { %>
+        <a href="/faculties/request-list" class="nav-button">accept faculty members </a>
+        <a href="/views-files/dean" class="nav-button">view files</a>
+        <a href="#" class="nav-button"style="background: linear-gradient(to right, #027393c2, #004464a9);">search FOR faculty</a>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- ✅ HEADER SECTION -->
+  <div class="div-block-5">
+    <img src="/pictures/iiest.png" alt="Logo" class="image-2">
+    <div class="div-block-6">
+      <div class="iiest">Research and Consultancy Cell IIEST Shibpur</div>
+      <p><%= dept %>, <%= name %></p>
+      <div class="date"><%= new Date().toLocaleDateString() %></div>
+    </div>
+  </div>
+
+  <!-- ✅ LOGOUT BUTTON -->
+  <button class="button logout" onclick="location.href='/'">LOG OUT</button>
+
+  <!-- ✅ MAIN BOX -->
+  <div class="main-box">
+    <h2 class="heading">FILES NEED TO BE SUBMITTED</h2>
+
+    <input type="text" id="fileSearch" placeholder="Search by File Code or Topic...">
+
+    <div class="div-block-8">
+      <div class="div-block-9 head">
+        <div class="row-block">name</div>
+        <div class="row-block">Department</div>
+        <div class="row-block">email</div>
+        <div class="row-block">Action</div>
+      </div>
+
+      <% faculties.forEach(function(faculty) { %>
+        <div class="div-block-9 mid">
+          <div class="row-block center-align"><%= faculty.name %></div>
+          <div class="row-block center-align"><%= faculty.dept %></div>
+          <div class="row-block center-align"><%= faculty.email %></div>
+          <div class="row-block action-buttons">
+            <a href="#" class="button-hold" data-email="<%= faculty.email %>" data-dept="<%= faculty.dept %>">DELETE</a>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <!-- ✅ SCRIPT SECTION -->
+  <script>
+    // Hold Modal (Confirm Delete)
+    document.querySelectorAll('.button-hold').forEach(button => {
+      button.addEventListener('click', function (e) {
+        e.preventDefault();
+
+        const facultyEmail = this.getAttribute('data-email');
+        const facultyDept = this.getAttribute('data-dept');
+
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        overlay.innerHTML = `
+          <div class="popup-box">
+            <form id="deleteFacultyForm" method="GET" action="/deleteFaculty/${facultyEmail}/${facultyDept}">
+              <h3>Reason for Deletion</h3>
+              <textarea name="reason" rows="3" required placeholder="Please enter a reason..."></textarea>
+              <div style="margin-top: 15px;">
+                <button type="submit" class="button-2">Delete</button>
+                <button type="button" class="button-hold" id="cancelBtn">Cancel</button>
+              </div>
+            </form>
+          </div>
+        `;
+        document.body.appendChild(overlay);
+
+        // Cancel button
+        document.getElementById('cancelBtn').onclick = function () {
+          overlay.remove();
+        };
+
+        // Form submission: validate reason but ignore backend
+        document.getElementById('deleteFacultyForm').onsubmit = function (event) {
+          const reason = this.reason.value.trim();
+          if (!reason) {
+            alert('Please provide a reason!');
+            event.preventDefault();
+            return false;
+          }
+          // Reason will be included in GET params but backend will ignore it.
+        };
+      });
+    });
+
+    // Search Filter
+    document.getElementById("fileSearch").addEventListener("input", function () {
+      const searchTerm = this.value.trim().toLowerCase();
+      const entries = document.querySelectorAll(".div-block-9.mid");
+
+      entries.forEach(entry => {
+        const fileCode = entry.querySelector(".row-block:nth-child(1)").textContent.toLowerCase();
+        const fileTopic = entry.querySelector(".row-block:nth-child(2)").textContent.toLowerCase();
+
+        if (fileCode.includes(searchTerm) || fileTopic.includes(searchTerm)) {
+          entry.style.display = "";
+          entry.style.animation = "fadeIn 0.3s ease";
+        } else {
+          entry.style.display = "none";
+        }
+      });
+    });
+
+    // Alert Animation
+    window.addEventListener('DOMContentLoaded', () => {
+      const alertBox = document.getElementById('alertBox');
+      if (alertBox) {
+        alertBox.classList.remove('hide');
+        alertBox.style.display = 'block';
+
+        setTimeout(() => {
+          alertBox.classList.add('hide');
+          setTimeout(() => {
+            alertBox.style.display = 'none';
+          }, 500);
+        }, 3000);
+      }
+    });
+  </script>
+</body>
+</html>

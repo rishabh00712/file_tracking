@@ -1,0 +1,112 @@
+-- Drop tables in correct order to avoid FK conflicts
+DROP TABLE IF EXISTS file_location;
+DROP TABLE IF EXISTS file_dept;
+DROP TABLE IF EXISTS faculty_request;
+DROP TABLE IF EXISTS dept_array;
+DROP TABLE IF EXISTS file_information;
+DROP TABLE IF EXISTS file_collection;
+DROP TABLE IF EXISTS deans;
+DROP TABLE IF EXISTS faculties;
+DROP TABLE IF EXISTS users;
+
+-- Users table (Login)
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255),
+    email VARCHAR(255) UNIQUE,
+    password VARCHAR(255)
+);
+
+-- Faculties table
+CREATE TABLE faculties (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255),
+    dept VARCHAR(255),
+    email VARCHAR(255) UNIQUE,
+    password VARCHAR(255)
+);
+
+-- Deans table
+CREATE TABLE deans (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255),
+    email VARCHAR(255) UNIQUE,
+    password VARCHAR(255)
+);
+
+-- File collection table all the files are there only the 
+CREATE TABLE file_collection (
+    id SERIAL PRIMARY KEY,
+    file_code VARCHAR(50) UNIQUE,
+    file_topic VARCHAR(255),
+    user_name VARCHAR(255),
+    tag boolian
+   
+);
+
+-- File information table one file1--> dep1 || file1-->dep2 that info 
+CREATE TABLE file_information (
+    id SERIAL PRIMARY KEY,
+    file_code VARCHAR(50),
+    dept_name VARCHAR(255),
+    status VARCHAR(50),
+    date VARCHAR(50), -- date stored as string
+    FOREIGN KEY (file_code) REFERENCES file_collection(file_code)
+);
+
+-- Dept array table to sto
+CREATE TABLE dept_array (
+    id SERIAL PRIMARY KEY,
+    file_code VARCHAR(50),
+    file_topic VARCHAR(255),
+    dept_array TEXT[], -- array of department names
+    FOREIGN KEY (file_code) REFERENCES file_collection(file_code)
+);
+
+-- Faculty request table
+CREATE TABLE faculty_request (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255),
+    email VARCHAR(255),
+    dept VARCHAR(255),
+    date VARCHAR(50),
+    password VARCHAR(255)
+);
+
+-- File-Dept mapping table
+DROP TABLE IF EXISTS file_dept;
+
+CREATE TABLE file_dept (
+    id SERIAL PRIMARY KEY,
+    dept VARCHAR(255),
+    file_code VARCHAR(50),
+    file_topic VARCHAR(255),
+    date VARCHAR(255),  -- ✅ Added date string column
+    FOREIGN KEY (file_code) REFERENCES file_collection(file_code)
+);
+
+
+-- File location table
+CREATE TABLE file_location (
+    id SERIAL PRIMARY KEY,
+    file_code VARCHAR(50),
+    dept VARCHAR(255),
+    FOREIGN KEY (file_code) REFERENCES file_collection(file_code)
+);
+
+-- Insert initial user
+INSERT INTO users (name, email, password)
+VALUES ('Rishabh Garai', 'rishabhgarai33@gmail.com', '123');
+
+
+
+-- Or, if above doesn't work on your SQL client, do it one by one in the correct order:
+TRUNCATE TABLE file_location RESTART IDENTITY CASCADE;
+TRUNCATE TABLE file_dept RESTART IDENTITY CASCADE;
+TRUNCATE TABLE faculty_request RESTART IDENTITY CASCADE;
+TRUNCATE TABLE dept_array RESTART IDENTITY CASCADE;
+TRUNCATE TABLE file_information RESTART IDENTITY CASCADE;
+TRUNCATE TABLE file_collection RESTART IDENTITY CASCADE;
+TRUNCATE TABLE faculties RESTART IDENTITY CASCADE;
+TRUNCATE TABLE users RESTART IDENTITY CASCADE;
+TRUNCATE TABLE deans RESTART IDENTITY CASCADE;

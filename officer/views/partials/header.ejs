@@ -1,0 +1,27 @@
+<!-- ✅ TOP NAVIGATION BUTTONS -->
+<div class="top-nav">
+  <div class="nav-left">
+    <a href="#" class="nav-button">HOME</a>
+    <% if (dept === 'Store & Purchase Section' || dept === 'Director Office') { %>
+      <a href="/fileadd/<%= dept %>" class="nav-button" style="background: linear-gradient(to right, #027393c2, #004464a9);">Add Files</a>
+    <% } %>
+    <% if (dept === 'Director Office') { %>
+      <a href="/verifyFiles" class="nav-button">accept faculty members</a>
+      <a href="/report" class="nav-button">SEARCH FOR USERS</a>
+      <a href="/allFiles" class="nav-button">search FOR faculty</a>
+    <% } %>
+  </div>
+</div>
+
+<!-- ✅ HEADER SECTION -->
+<div class="div-block-5">
+  <img src="/pictures/iiest.png" alt="Logo" class="image-2">
+  <div class="div-block-6">
+    <div class="iiest">Research and Consultancy Cell IIEST Shibpur</div>
+    <p><%= dept %>, <%= name %></p>
+    <div class="date"><%= new Date().toLocaleDateString() %></div>
+  </div>
+</div>
+
+<!-- ✅ LOGOUT -->
+<button class="button logout" onclick="location.href='/'">LOG OUT</button>

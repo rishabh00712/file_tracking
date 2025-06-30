@@ -1,0 +1,236 @@
+/* === RESET === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #fff;
+  padding: 20px;
+  width: 100%;
+}
+
+/* === HEADER === */
+.div-block-5 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.image-2 {
+  width: 100px;
+  height: auto;
+}
+
+.div-block-6 {
+  text-align: center;
+}
+
+.date {
+  font-size: 14px;
+  color: #bbb;
+  margin-top: 4px;
+}
+
+.iiest {
+  font-size: 16px;
+  color: #fff;
+  margin-top: 4px;
+}
+
+/* === MAIN CONTENT BOX === */
+.main-box {
+  width: 100%;
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px 25px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.1);
+  text-align: center;
+}
+
+/* === HEADING === */
+.heading {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 25px;
+  color: #00f0ff;
+  text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
+}
+
+/* === INPUT GROUP === */
+.input-group {
+  position: relative;
+  margin-bottom: 25px;
+  perspective: 1000px;
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 14px;
+  background: transparent;
+  border: 2px solid #00f0ff;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 1.3rem;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, border-color 0.3s ease;
+  transform-style: preserve-3d;
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.2);
+  text-align: center;
+}
+
+.input-group input:focus {
+  transform: rotateY(7deg);
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.6);
+  outline: none;
+  border-color: #ffffff;
+}
+
+.input-group label {
+  position: absolute;
+  top: -12px;
+  left: 14px;
+  background: #0f2027;
+  padding: 0 5px;
+  font-size: 1rem;
+  color: #00f0ff;
+  pointer-events: none;
+  text-shadow: 0 0 6px rgba(0, 240, 255, 0.5);
+}
+
+/* === TABLE SECTION === */
+.div-block-8 {
+  margin-top: 20px;
+}
+
+/* === TABLE HEADER === */
+.div-block-9.head {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 2px solid #00f0ff;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  background: rgba(0, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+/* === TABLE ROWS === */
+.div-block-9.mid {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.div-block-14, .div-block-15, .div-block-16,
+.div-block-17, .div-block-18, .div-block-19 {
+  flex: 1;
+  text-align: center;
+  color: #fff;
+}
+
+/* === STATUS STYLES === */
+.status-cell {
+  font-style: italic;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.4);
+  font-weight: bold;
+}
+
+/* === STATUS COLOR CLASSES === */
+.status-over {
+  color: #00ff88;
+}
+
+.status-progress {
+  color: #ffc107;
+}
+
+/* === BACK BUTTON === */
+.button-2 {
+  margin-top: 30px;
+  display: inline-block;
+  padding: 10px 20px;
+  background: linear-gradient(45deg, #00f0ff, #0084ff);
+  color: #fff;
+  border: none;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+}
+
+.button-2:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 18px rgba(0, 240, 255, 0.7);
+}
+
+/* === NOTIFICATION BAR === */
+.notification {
+  background: #ff4d4d;
+  padding: 12px;
+  text-align: center;
+  border-radius: 6px;
+  margin-bottom: 20px;
+  font-weight: bold;
+  display: none;
+  animation: slideDown 0.5s forwards;
+}
+
+.notification.show {
+  display: block;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 600px) {
+  .div-block-9.head,
+  .div-block-9.mid {
+    flex-direction: column;
+    gap: 8px;
+    text-align: left;
+  }
+
+  .main-box {
+    padding: 20px 15px;
+  }
+
+  .heading {
+    font-size: 1.4rem;
+  }
+
+  .image-2 {
+    width: 80px;
+  }
+
+  .button-2 {
+    width: 100%;
+  }
+
+  .div-block-14, .div-block-15, .div-block-16,
+  .div-block-17, .div-block-18, .div-block-19 {
+    text-align: left;
+    padding-left: 8px;
+  }
+}

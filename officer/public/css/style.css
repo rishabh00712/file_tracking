@@ -1,26 +1,382 @@
-.flex-container{
-    width: 100%;
-    display: flex;
-}
-.toggle-btn{
-    width: 0px;
-    position:relative;
-    right: 40px;
-    top: 8px;
-    font-size: 20px;
+/* styles.css */
+
+/* 1. Global Reset & Base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
 }
 
+body {
+ 
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  color: #fff;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* 2. Glassmorphic Container */
+.container {
+  width: 100%;
+  max-width: 400px;
+  background: rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
+  border-radius: 16px;
+  padding: 40px 30px;
+  box-shadow: 0 0 30px rgba(0, 240, 255, 0.2);
+  animation: fadeIn 0.8s ease-out;
+}
+
+/* Fade-in Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 3. Heading */
+.container h1 {
+
+  font-size: 1.6rem;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #00f0ff;
+  text-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+}
+
+/* 4. Form & Input Groups */
+.input-group {
+  position: relative;
+  margin-bottom: 25px;
+  perspective: 800px;
+}
+
+/* Floating Label */
+.input-group label {
+  position: absolute;
+  background: rgba(32, 59, 71, 0.8);
+
+  font-size: 0.85rem;
+  color: #00f0ff;
+  pointer-events: none;
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+    /* move it slightly higher and inset */
+  top: -8px;      /* was -10px or -12px */
+  left: 16px;     /* a hair more inset */
+  padding: 0 4px; /* tighten the bubble */
+  z-index: 1000;
+}
+
+/* Shared Input Styles */
+.input-group input,
+.input-group select {
+  width: 100%;
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid #00f0ff;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 1rem;
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 0 8px rgba(0, 240, 255, 0.2);
+  transform-style: preserve-3d;
+}
+
+/* Space for eye icon in password */
+.input-group input[type="password"] {
+  padding-right: 44px;
+}
+
+/* Input Focus Effects */
+.input-group input:focus,
+.input-group select:focus {
+  border-color: #fff;
+  box-shadow:
+    inset 0 0 12px rgba(0, 240, 255, 0.6),
+    0 0 12px rgba(0, 240, 255, 0.6);
+  transform: rotateY(5deg);
+}
+
+/* 5. Password Toggle */
+.toggle-btn {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  color: #ccc;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.toggle-btn:hover {
+  color: #00f0ff;
+}
+
+/* 6. Buttons */
+.button_box {
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+.button {
+  flex: 1;
+  padding: 14px 0;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  background: linear-gradient(45deg, #00f0ff, #007bff);
+  color: #fff;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+}
+
+.button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+}
+
+/* 7. Forgot-Password Link */
+.forgot-password-link {
+  display: block;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #bbb;
+  text-decoration: none;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.forgot-password-link:hover {
+  color: #00f0ff;
+  text-shadow: 0 0 8px rgba(0, 240, 255, 0.4);
+}
+
+/* 8. Responsive Adjustments */
 @media (max-width: 480px) {
-    .button {
-        font-size: 12px; 
-        padding: 0px; 
-    }
-    .toggle-btn{
-        width: 0px;
-        position:relative;
-        right: 40px;
-        top: 0px;
-        font-size: 18px;
-    }
+  .container {
+    padding: 30px 20px;
+  }
+  .container h1 {
+    font-size: 1.4rem;
+  }
+  .button {
+    font-size: 0.95rem;
+  }
+}
+/* 1. Tweak floating-label position */
+.input-group label {
+
+}
+
+/* 2. Position “Forgot Password” on the right */
+.forgot-password-link {
+  /* remove its block centering */
+  display: inline-block;
+  margin: 0;             /* clear previous margins */
+  position: absolute;    
+  right: 30px;           /* match your container’s padding */
+  bottom: 20px;          /* align just below the buttons */
+}
+
+/* make the container positionable */
+.container {
+  position: relative;    /* for the absolute child */
+}
+
+/* 3. Style the <select> and its dropdown options */
+.input-group select {
+  /* match other inputs */
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  border-color: #00f0ff;
+  /* hide native arrow so our glow shows through */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 32px;   /* leave room for the arrow */
+
     
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.input-group select option {
+  background: #203a43;  /* dark blue matching your BG */
+  color: #fff;          /* white text */
+}
+
+/* small adjustment so the glow outlines the select box */
+.input-group select:focus {
+  box-shadow:
+    inset 0 0 12px rgba(0,240,255,0.6),
+    0 0 12px rgba(0,240,255,0.6);
+}
+/* 
+notification  */
+/* Base Alert Style */
+.alert {
+  position: fixed;
+  top: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: white;
+  z-index: 9999;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  display: none;
+  animation: slideDown 0.5s ease-out forwards;
+   text-transform: capitalize;
+}
+
+/* Slide animations */
+@keyframes slideDown {
+  from {
+    top: -100px;
+    opacity: 0;
+  }
+  to {
+    top: 30px;
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    top: 30px;
+    opacity: 1;
+  }
+  to {
+    top: -100px;
+    opacity: 0;
+  }
+}
+
+.alert.hide {
+  animation: slideUp 0.5s ease-in forwards;
+}
+
+/* Types of alerts */
+.alert.error {
+  background: linear-gradient(90deg, #ff6e7f, #e94560);
+}
+
+.alert.success {
+  background: linear-gradient(90deg, #4facfe, #00f2fe);
+}
+
+
+.top-nav {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 30px;
+  box-sizing: border-box;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-direction: row;
+  gap: 3px;
+}
+
+.nav-left {
+  display: flex;
+  gap: 12px;
+  flex-direction: row;
+  width: 100%;
+}
+
+.nav-button {
+  padding: 10px 18px;
+  background: linear-gradient(45deg, #00f0ff, #0084ff);
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+  transition: all 0.2s ease-in-out;
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.nav-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.5);
+}
+
+@media (max-width: 600px) {
+  .top-nav {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+  }
+  .nav-left {
+    justify-content: center;
+  }
+  .nav-button {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* HEADER SECTION */
+.div-block-5 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 20px;
+}
+
+.image-2 {
+  width: 100px;
+  height: auto;
+}
+
+.div-block-6 {
+  text-align: center;
+}
+
+.iiest {
+  font-size: 16px;
+  color: #fff;
+  margin-top: 4px;
+}
+
+.date {
+  font-size: 14px;
+  color: #bbb;
+  margin-top: 4px;
+}
+
+#img-logout{
+  display: flex;
+  flex-direction: column;
+  
+}
+
+.header-box{
+
+  width: 100%;
+}
+#body{
+
 }

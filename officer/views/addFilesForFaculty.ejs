@@ -5,26 +5,60 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login | Office of Research & Consultancy</title>
   <link rel="stylesheet" href="/css/style.css" />
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 </head>
+
 <body>
     <% if (typeof error !== 'undefined') { %>
   <div id="alertBox" class="alert error"><%= error %></div>
 <% } else if (typeof successMessage !== 'undefined') { %>
   <div id="alertBox" class="alert success"><%= successMessage %></div>
 <% } %>
+<!-- ✅ TOP NAVIGATION BUTTONS -->
+<div class="header-box">
+<div class="top-nav">
+  <div class="nav-left">
+    <a href="/files_info/<%= dept %>" class="nav-button">HOME</a>
+    <% if (dept === 'Store & Purchase Section' || dept === 'Dean Office') { %>
+      <a href="/fileadd/<%= dept %>" class="nav-button" style="background: linear-gradient(to right, #027393c2, #004464a9);">Add Files</a>
+    <% } %>
+    <% if (dept === 'Dean Office') { %>
+      <a href="/faculties/request-list" class="nav-button">accept faculty members</a>
+      <a href="/views-files/dean" class="nav-button">VIEW FILES</a>
+      <a href="/search/faculties" class="nav-button">search FOR faculty</a>
+    <% } %>
+  </div>
+</div>
+<div id="img-logout">
+  <!-- ✅ HEADER SECTION -->
+<div class="div-block-5">
+  <img src="/pictures/iiest.png" alt="Logo" class="image-2">
+  <div class="div-block-6">
+    <div class="iiest">Research and Consultancy Cell IIEST Shibpur</div>
+    <p><%= dept %>, <%= name %></p>
+    <div class="date"><%= new Date().toLocaleDateString() %></div>
+  </div>
+</div>
 
-  <div class="container">
+
+
+</div>
+
+</div>
+  <!-- ✅ TOP NAVIGATION BUTTONS -->
+
+<div id="body">
+   <div class="container">
     <h1>Research & Consultancy Cell of IIEST, Shibpur</h1>
 
-    <form action="/signin" method="post">
+    <form action="/addFilesForFaculty" method="post">
       <!-- Email -->
       <div class="input-group">
-        <label for="email">Enter Your Email</label>
+        <label for="email">Enter File Code</label>
         <input
-          type="email"
           id="email"
-          name="email"
+          name="file_code"
           
           required
           autofocus
@@ -33,25 +67,21 @@
 
       <!-- Department -->
       <div class="input-group">
-                <label for="department">Select Department</label>
-                <select id="department" name="dept" required>
-                <option value="Director Office">Director Office</option>
-                <option value="Dean Office">Dean Office</option>
-                <option value="Finance Section">Finance Section</option>
-                <option value="Store & Purchase Section">Store & Purchase Section</option>
-                <option value="E-Procurement">E-Procurement</option>
-                <option value="Internal Audit">Internal Audit</option>
+                <label for="department">Select Topic</label>
+                <select id="department" name="topic" required>
+                <option value="Payment">Payment</option>
+                <option value="Approval">Approval</option>
+                <option value="Others">Others</option>
                 </select>
             
         </div>
 
       <!-- Password -->
       <div class="input-group">
-        <label for="password">Enter Your Password</label>
+        <label for="password">Enter User Name</label>
         <input
-          type="password"
           id="password"
-          name="password"
+          name="name"
           
           required
         />
@@ -60,20 +90,15 @@
 
       <!-- Buttons -->
       <div class="button_box">
-        <button type="submit" class="button">SIGN IN</button>
-        <button
-          type="button"
-          class="button"
-          onclick="location.href='/signup'"
-        >
-          SIGN UP
-        </button>
+        <button type="submit" class="button">SUBMIT</button>
+
       </div>
 
-      <!-- Forgot link -->
-      <a href="/forgotPass" class="forgot-password-link">FORGOT PASSWORD</a>
     </form>
   </div>
+
+</div>
+ 
 
   <script>
     const pwd = document.getElementById("password");

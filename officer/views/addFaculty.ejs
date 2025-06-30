@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Files Page</title>
+  <link rel="stylesheet" href="/css/fileHandler.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+<body>
+
+  <% if (typeof error !== 'undefined') { %>
+    <div id="alertBox" class="alert error"><%= error %></div>
+  <% } else if (typeof successMessage !== 'undefined') { %>
+    <div id="alertBox" class="alert success"><%= successMessage %></div>
+  <% } %>
+
+  <!-- ✅ TOP NAVIGATION BUTTONS -->
+  <div class="top-nav">
+    <div class="nav-left">
+        <a href="/files_info/<%= dept %>" class="nav-button">HOME</a>
+      <% if (dept === 'Store & Purchase Section' || dept === 'Dean Office') { %>
+        <a href="/fileadd/<%=dept%>" class="nav-button">Add Files</a>
+      <% } %>
+        <!-- 'Dean Office' -->
+      <% if (dept === 'Dean Office') { %>
+        <a href="/faculties/request-list" class="nav-button"style="background: linear-gradient(to right, #027393c2, #004464a9);">accept faculty members </a>
+        <a href="/views-files/dean" class="nav-button">view files</a>
+        <a href="/search/faculties" class="nav-button">search FOR faculty</a>
+      <% } %>
+    </div>
+  </div>
+
+  <!-- ✅ HEADER SECTION -->
+  <div class="div-block-5">
+    <img src="/pictures/iiest.png" alt="Logo" class="image-2">
+    <div class="div-block-6">
+      <div class="iiest">Research and Consultancy Cell IIEST Shibpur</div>
+      <p><%= dept %>, <%= name %></p>
+      <div class="date"><%= new Date().toLocaleDateString() %></div>
+    </div>
+  </div>
+
+  <!-- ✅ LOGOUT BUTTON -->
+  <button class="button logout" onclick="location.href='/'">LOG OUT</button>
+
+  <!-- ✅ MAIN BOX -->
+  <div class="main-box">
+    <h2 class="heading">FILES NEED TO BE SUBMITTED</h2>
+
+    <input type="text" id="fileSearch" placeholder="Search by File Code or Topic...">
+
+    <div class="div-block-8">
+      <div class="div-block-9 head">
+        <div class="row-block">name</div>
+        <div class="row-block">email</div>
+        <div class="row-block">Department</div>
+        <div class="row-block">Pending Till</div>
+        <div class="row-block">Action</div>
+      </div>
+
+      <% requests.forEach(function(faculty) { %>
+        <div class="div-block-9 mid">
+          <div class="row-block center-align"><%= faculty.name %></div>
+          <div class="row-block center-align"><%= faculty.email %></div>
+          <div class="row-block center-align"><%= faculty.dept %></div>
+          <div class="row-block center-align"><%= faculty.date %></div>
+          <div class="row-block action-buttons">
+            <a href="/acpetFaculty/<%= faculty.email %>/<%= faculty.dept %>" class="button-2">ADD</a>
+            <a href="/rejectFaculty/<%= faculty.email %>/<%= faculty.dept %>" class="button-hold">DELETE</a>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <!-- ✅ SCRIPT SECTION -->
+  <script>
+    // Custom Submit Modal
+    document.querySelectorAll('.button-2').forEach(button => {
+      button.addEventListener('click', function (e) {
+        e.preventDefault();
+        const href = this.getAttribute('href');
+
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        overlay.innerHTML = `
+          <div class="popup-box">
+            <h3>Submit this file?</h3>
+            <p>Are you sure you want to submit this file?</p>
+            <div style="margin-top: 15px;">
+              <a href="${href}" class="button-2">Yes, Submit</a>
+              <button class="button-hold" onclick="this.closest('.overlay').remove()">Cancel</button>
+            </div>
+          </div>
+        `;
+        document.body.appendChild(overlay);
+      });
+    });
+
+    // Hold Modal
+    document.querySelectorAll('.button-hold').forEach(button => {
+      button.addEventListener('click', function (e) {
+        e.preventDefault();
+        const fileCode = this.getAttribute('href').split('/').pop();
+
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        overlay.innerHTML = `
+          <div class="popup-box">
+            <form method="POST" action="/hold/${fileCode}">
+              <h3>Reason for Hold</h3>
+              <textarea name="reason" rows="3" required></textarea>
+              <div style="margin-top: 15px;">
+                <button type="submit" class="button-2">Submit</button>
+                <button type="button" class="button-hold" onclick="this.closest('.overlay').remove()">Cancel</button>
+              </div>
+            </form>
+          </div>
+        `;
+        document.body.appendChild(overlay);
+      });
+    });
+
+    // Search Filter
+    document.getElementById("fileSearch").addEventListener("input", function () {
+      const searchTerm = this.value.trim().toLowerCase();
+      const entries = document.querySelectorAll(".div-block-9.mid");
+
+      entries.forEach(entry => {
+        const fileCode = entry.querySelector(".row-block:nth-child(1)").textContent.toLowerCase();
+        const fileTopic = entry.querySelector(".row-block:nth-child(2)").textContent.toLowerCase();
+
+        if (fileCode.includes(searchTerm) || fileTopic.includes(searchTerm)) {
+          entry.style.display = "";
+          entry.style.animation = "fadeIn 0.3s ease";
+        } else {
+          entry.style.display = "none";
+        }
+      });
+    });
+
+    // Alert Animation
+    window.addEventListener('DOMContentLoaded', () => {
+      const alertBox = document.getElementById('alertBox');
+      if (alertBox) {
+        alertBox.classList.remove('hide');
+        alertBox.style.display = 'block';
+
+        setTimeout(() => {
+          alertBox.classList.add('hide');
+          setTimeout(() => {
+            alertBox.style.display = 'none';
+          }, 500);
+        }, 3000);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rishabh's Change Password Page</title>
-    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/css/style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 </head>
@@ -16,11 +16,23 @@
     <% } %>
     <div class="container">
         <h1><%= locals.error ? locals.error : 'Enter your registered email and create a new password' %></h1>
-        <form id="email-form" name="email-form" action="/change-pass" method="post">
+        <form id="email-form" name="email-form" action="/passChange" method="post">
             <!-- Email Input -->
             <div class="input-group">
                 <input type="email" id="Email-3" name="email" placeholder=" " required autofocus>
                 <label for="Email-3">Enter Your Email</label>
+            </div>
+            <!-- Department -->
+            <div class="input-group">
+                <label for="department">Select Department</label>
+                <select id="department" name="dept" required>
+                <option value="Director Office">Director Office</option>
+                <option value="Dean Office">Dean Office</option>
+                <option value="Finance Section">Finance Section</option>
+                <option value="Store & Purchase Section">Store & Purchase Section</option>
+                <option value="E-Procurement">E-Procurement</option>
+                <option value="Internal Audit">Internal Audit</option>
+                </select>
             </div>
 
             <!-- New Password Input -->

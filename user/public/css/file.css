@@ -1,0 +1,224 @@
+/* === GENERAL RESET === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: #fff;
+  padding: 20px;
+}
+
+/* === HEADER === */
+.div-block-5 {
+  display: flex;
+  flex-direction: column;
+  align-items:center;
+  gap: 5px;
+  padding: 5px 20px;
+}
+
+.image-2 {
+  width: 100px;
+  height: auto;
+}
+
+.div-block-6 {
+  flex-grow: 1;
+}
+
+.date {
+  font-size: 14px;
+  color: #bbb;
+}
+
+.paragraph-2 {
+  padding-left: 20px;
+  font-size: 17px;
+  color: #fff;
+  margin-bottom: px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+
+
+
+.logout:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+}
+
+/* === CONTAINER === */
+.container {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 30px 25px;
+  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.1);
+  animation: fadeIn 0.8s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+h1.heading-2 {
+  font-size: 1.4rem;
+  text-align: center;
+  margin-bottom: 25px;
+  color: #00f0ff;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+}
+
+/* === FORM === */
+.form-3 {
+  width: 100%;
+}
+
+.inputfild {
+  width: 100%;
+  padding: 12px 14px;
+  background: transparent;
+  border: 2px solid #00f0ff;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  transition: border 0.3s ease;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(5px);
+}
+
+.inputfild:focus {
+  border-color: #fff;
+  outline: none;
+}
+
+/* === BUTTON === */
+.button_box {
+  display: flex;
+  justify-content: center;
+}
+
+.button {
+  padding: 10px 15px;
+  background: linear-gradient(45deg, #00f0ff, #0084ff);
+  color: #fff;
+  font-weight: bold;
+  border-radius: 8px;
+  font-size: large;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+}
+
+/* === NOTIFICATION (Optional) === */
+.notification {
+  position: fixed;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 500px;
+  background: linear-gradient(45deg, #ff4e50, #f9d423);
+  color: #fff;
+  text-align: center;
+  padding: 15px 20px;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+  font-size: 1rem;
+  z-index: 9999;
+  transition: top 0.6s ease;
+}
+
+.notification.show {
+  top: 20px;
+}
+/* === LOGOUT BUTTON === */
+.logout {
+  float: right;
+  margin: 10px 20px 20px;
+  padding: 10px 15px;
+  background: linear-gradient(45deg, #ff7878, #ef3030);
+  color: #fff;
+  font-weight: bold;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+/* === RESPONSIVE === */
+@media (max-width: 499px) {
+  .button_box {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .logout {
+    float: none;
+    width: 100%;
+    margin: 20px 0;
+    text-align: center;
+  }
+
+  .image-2 {
+    width: 80px;
+  }
+
+  .container {
+    padding: 20px 15px;
+  }
+}
+
+
+.input-group {
+  position: relative;
+  margin-bottom: 25px;
+  perspective: 1000px; /* Needed for 3D effect */
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid #ffffff;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 1rem;
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  transform-style: preserve-3d;
+}
+
+.input-group input:focus {
+  transform: rotateY(7deg);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.5);
+  outline: none;
+}
+
+.input-group label {
+  position: absolute;
+  top: -12px;
+  left: 14px;
+  background: #2c5364;
+  padding: 0 5px;
+  font-size: 0.8rem;
+  color: #00f0ff;
+  pointer-events: none;
+}
+

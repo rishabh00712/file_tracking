@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Files Page</title>
+  <link rel="stylesheet" href="/css/fileHandler.css">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+</head>
+
+<body>
+  <% if (typeof error !== 'undefined') { %>
+    <div id="alertBox" class="alert error"><%= error %></div>
+  <% } else if (typeof successMessage !== 'undefined') { %>
+    <div id="alertBox" class="alert success"><%= successMessage %></div>
+  <% } %>
+
+  <!-- ✅ TOP NAVIGATION BUTTONS -->
+<div class="top-nav">
+  <div class="nav-left">
+    <a href="/files_info/<%= dept %>" class="nav-button">HOME</a>
+    <% if (dept === 'Store & Purchase Section' || dept === 'Dean Office') { %>
+      <a href="/fileadd/<%= dept %>" class="nav-button" style="background: linear-gradient(to right, #027393c2, #004464a9);">Add Files</a>
+    <% } %>
+    <% if (dept === 'Dean Office') { %>
+      <a href="/faculties/request-list" class="nav-button">accept faculty members</a>
+      <a href="/views-files/dean" class="nav-button">VIEW FILES</a>
+      <a href="/search/faculties" class="nav-button">search FOR faculty</a>
+    <% } %>
+  </div>
+</div>
+
+<!-- ✅ HEADER SECTION -->
+<div class="div-block-5">
+  <img src="/pictures/iiest.png" alt="Logo" class="image-2">
+  <div class="div-block-6">
+    <div class="iiest">Research and Consultancy Cell IIEST Shibpur</div>
+    <p><%= dept %>, <%= name %></p>
+    <div class="date"><%= new Date().toLocaleDateString() %></div>
+  </div>
+</div>
+
+<!-- ✅ LOGOUT -->
+<button class="button logout" onclick="location.href='/'">LOG OUT</button>
+
+
+
+  <!-- ✅ MAIN BOX -->
+  <div class="main-box">
+    <h2 class="heading">FILES NEED TO BE ADD</h2>
+
+    <input type="text" id="fileSearch" placeholder="Search by File Code or Topic...">
+
+    <div class="div-block-8">
+      <div class="div-block-9 head">
+        <div class="row-block">File Code</div>
+        <div class="row-block">File Topic</div>
+        <div class="row-block">User Name</div>
+        <div class="row-block">Add Department</div>
+      </div>
+
+      <% files.forEach(function(file) { %>
+        <div class="div-block-9 mid">
+          <div class="row-block center-align"><%= file.file_code %></div>
+          <div class="row-block center-align"><%= file.file_topic %></div>
+          <div class="row-block center-align"><%= file.user_name %></div>
+          <div class="row-block action-buttons">
+            <a class="button-2" data-file="<%= file.file_code %>">ADD DEPT</a>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <!-- ✅ SCRIPT SECTION -->
+  <script>
+    // Modal for adding department
+    document.querySelectorAll('.button-2').forEach(button => {
+      button.addEventListener('click', function () {
+        const fileCode = this.getAttribute('data-file');
+
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+        overlay.innerHTML = `
+          <div class="popup-box">
+            <h2> ${fileCode}</h2>
+
+            <div><strong>Departments of that file</strong></div>
+            <div class="existing-depts" style="margin-bottom: 15px;">
+            <button class="dept-btn" onclick="addDeptToArray('${fileCode}', 'Director Office')">Director Office</button>
+            <button class="dept-btn" onclick="addDeptToArray('${fileCode}', 'Dean Office')">Dean Office</button>
+            <button class="dept-btn" onclick="addDeptToArray('${fileCode}', 'Finance Section')">Finance Section</button>
+            <button class="dept-btn" onclick="addDeptToArray('${fileCode}', 'Store & Purchase Section')">Store & Purchase Section</button>
+            <button class="dept-btn" onclick="addDeptToArray('${fileCode}', 'E-Procurement')">E-Procurement</button>
+            <button class="dept-btn" onclick="addDeptToArray('${fileCode}', 'Internal Audit')">Internal Audit</button>
+          </div>
+
+
+            <div><strong>Department array</strong></div>
+            <div id="deptContainer-${fileCode}" class="new-dept-array" style="margin-bottom: 15px;"></div>
+
+            <form method="POST" action="/addfile/${fileCode}">
+              <input type="hidden" name="departments" id="deptInput-${fileCode}">
+             
+              <button type="button" class="button-hold" onclick="this.closest('.overlay').remove()">CANCLE</button>
+               <button type="submit" class="button-2">SUBMIT</button>
+            </form>
+          </div>
+        `;
+        document.body.appendChild(overlay);
+      });
+    });
+
+    // Allow duplicates and visual tagging
+    function addDeptToArray(fileCode, deptName) {
+      const container = document.getElementById(`deptContainer-${fileCode}`);
+      const hiddenInput = document.getElementById(`deptInput-${fileCode}`);
+
+      const tag = document.createElement('span');
+      tag.className = 'dept-tag';
+      tag.innerHTML = `${deptName}<span class="remove-dept"> ×</span>`;
+
+      tag.querySelector('.remove-dept').onclick = () => {
+        tag.remove();
+        updateHiddenInput();
+      };
+
+      container.appendChild(tag);
+      updateHiddenInput();
+
+      function updateHiddenInput() {
+        const updatedDepts = [...container.querySelectorAll('.dept-tag')].map(el => el.textContent.replace('×', '').trim());
+        hiddenInput.value = JSON.stringify(updatedDepts);
+      }
+    }
+
+    // Search Filter
+    document.getElementById("fileSearch").addEventListener("input", function () {
+      const searchTerm = this.value.trim().toLowerCase();
+      const entries = document.querySelectorAll(".div-block-9.mid");
+
+      entries.forEach(entry => {
+        const fileCode = entry.querySelector(".row-block:nth-child(1)").textContent.toLowerCase();
+        const fileTopic = entry.querySelector(".row-block:nth-child(2)").textContent.toLowerCase();
+
+        if (fileCode.includes(searchTerm) || fileTopic.includes(searchTerm)) {
+          entry.style.display = "";
+          entry.style.animation = "fadeIn 0.3s ease";
+        } else {
+          entry.style.display = "none";
+        }
+      });
+    });
+
+    // Alert Animation
+    window.addEventListener('DOMContentLoaded', () => {
+      const alertBox = document.getElementById('alertBox');
+      if (alertBox) {
+        alertBox.classList.remove('hide');
+        alertBox.style.display = 'block';
+
+        setTimeout(() => {
+          alertBox.classList.add('hide');
+          setTimeout(() => {
+            alertBox.style.display = 'none';
+          }, 500);
+        }, 3000);
+      }
+    });
+  </script>
+
+  <!-- ✅ Styling for modal -->
+  <style>
+     </style>
+</body>
+</html>
